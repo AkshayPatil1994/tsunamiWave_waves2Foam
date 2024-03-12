@@ -1,0 +1,96 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.5                                   |
+|   \\  /    A nd           | Web:      http://www.OpenFOAM.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      environmentalProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+seaLevel	0.00;
+
+// A list of the relaxation zones in the simulation. The parameters are given
+// in <name>Coeffs below.
+relaxationNames (inlet outlet);
+
+initializationName outlet;
+
+inletCoeffs
+{
+    // Wave type to be used at boundary "inlet" and in relaxation zone "inlet"
+    waveType    tsunamiWave;
+    
+    // Ramp time of 2 s
+    // Damping the solitary wave does not make much sense so set to 0.0 s
+    Tsoft       0.0;
+
+    // t0 - This is the phase offset in time in s
+    t0		0.0;
+
+    // A1coeff - This is the amplitude of the wave in m
+    // A1coeff MUST be the same as height as height is used in setting the B.C.
+    A1coeff	0.071;
+    // Wave height
+    height      0.071;
+
+    // omega1coeff - This is the wave frequency defined by 2*pi/Tw, where
+    // Tw is the wave period in seconds
+    omega1coeff	0.314159;
+    // Wave period - This is not really used however, to be sure keep it to 2*pi/omega1coeff
+    period      20.0;
+
+    // x0	- This is the centroid of the wave in m
+    x0	(0.0 0.0 0.0);
+
+    // Water depth at the boundary and in the relaxation zone
+    depth       1.00;
+
+    // Phase shift in the wave
+    phi         0.000000;
+
+    // Wave number vector, k. 
+    direction  (1.0 0.0 0.0);
+    
+    // Specifications on the relaxation zone shape and relaxation scheme
+    relaxationZone
+    {
+        relaxationScheme Spatial;
+        relaxationShape  Rectangular;
+        beachType        Empty;
+    
+        relaxType   INLET;
+        startX      (0 0.0 -1);
+        endX        (20 0.0  1);
+        orientation      (1.0 0.0 0.0);
+    }
+};
+
+outletCoeffs
+{
+    waveType    potentialCurrent;
+    U           (0 0 0);
+    Tsoft       0;
+
+    relaxationZone
+    {
+        relaxationScheme Spatial;
+        relaxationShape  Rectangular;
+        beachType        Empty;    
+
+        relaxType   OUTLET;
+        startX      (80 0.0 -1);
+        endX        (100 0.0  1);
+        orientation      (1.0 0.0 0.0);
+    }
+};
+
+
+
+// ************************************************************************* //
