@@ -2,8 +2,7 @@
 
 # How to compile the code?
 
-- Copy the `tsunamiWave_waveTheories` folder into `waves2Foam/src/waves2Foam/waveTheories/solitary/`
-- Rename the `tsunamiWave_waveTheories` to `tsunamiWave`
+- Copy the `tsunamiWave_waveTheories/tsunamiWave` folder into `waves2Foam/src/waves2Foam/waveTheories/solitary/`
 
 - Now copy the `tsunamiWaveProperties` folder into `waves2Foam/src/waves2FoamProcessing/preProcessing/setWaveProperties/solitary/`
 
